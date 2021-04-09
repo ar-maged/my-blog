@@ -1,12 +1,15 @@
 import fs from 'fs';
 import matter from 'gray-matter';
+import { MdxRemote } from 'next-mdx-remote/types';
 import path from 'path';
+import renderToString from 'next-mdx-remote/render-to-string';
+import { components } from '../components/mdxComponents';
 
 export type BlogPost = {
   title: string;
   tags: string[];
   createdAt: string;
-  content: string;
+  content: MdxRemote.Source;
   type: 'book' | 'blog';
   slug: string;
   excerpt: string;
@@ -18,26 +21,31 @@ type MatterBlogPost = {
     type: 'blog' | 'book';
     tags: string;
     createdAt: string;
-    excerpt: string;
   };
+  excerpt: string;
   content: string;
 };
 
 const MDX_PATH = './src/mdx';
 
-const fromMatterToBlogPost = (
+const fromMatterToBlogPost = async (
   matterBlog: MatterBlogPost,
   slug: string,
-): BlogPost => {
+): Promise<BlogPost> => {
   const {
     content,
-    data: { title, createdAt, tags, type, excerpt },
+    data: { title, createdAt, tags, type },
+    excerpt,
   } = matterBlog;
+
+  const mdxContent = await renderToString(content, {
+    components,
+  });
 
   return {
     title,
     type,
-    content,
+    content: mdxContent,
     createdAt,
     slug,
     excerpt,
@@ -45,31 +53,35 @@ const fromMatterToBlogPost = (
   };
 };
 
-function getAll(): BlogPost[] {
+export function getAllBlogSlugs(): string[] {
   const fileNames = fs.readdirSync(path.resolve(process.cwd(), MDX_PATH));
+
+  return fileNames.map((name) => name.split('.')[0]);
+}
+
+export async function getAll(): Promise<BlogPost[]> {
+  const results: BlogPost[] = [];
+
+  const fileNames = getAllBlogSlugs();
   const filesContents = fileNames.map((fileName) =>
-    fs.readFileSync(path.resolve(process.cwd(), MDX_PATH, fileName), {
+    fs.readFileSync(path.resolve(process.cwd(), MDX_PATH, `${fileName}.mdx`), {
       encoding: 'utf8',
     }),
   );
+
   const fileContentsWithMetadata = filesContents.map<MatterBlogPost>(
-    (content) => <any>matter(content, { excerpt: true }),
+    (content) => matter(content, { excerpt: true }) as any,
   );
 
-  return fileContentsWithMetadata.map((content, index) =>
-    fromMatterToBlogPost(content, fileNames[index]),
-  );
+  for (let index = 0; index < fileContentsWithMetadata.length; index++) {
+    const content = fileContentsWithMetadata[index];
+    results.push(await fromMatterToBlogPost(content, fileNames[index]));
+  }
+
+  return results;
 }
 
-export function getAllBlogs(): BlogPost[] {
-  return getAll().filter(({ type }) => type === 'blog');
-}
-
-export function getAllBooks(): BlogPost[] {
-  return getAll().filter(({ type }) => type === 'book');
-}
-
-export function getBySlug(slug: string): BlogPost {
+export async function getBySlug(slug: string): Promise<BlogPost> {
   const content = fs.readFileSync(
     path.resolve(process.cwd(), MDX_PATH, `${slug}.mdx`),
     {
@@ -82,14 +94,6 @@ export function getBySlug(slug: string): BlogPost {
   return fromMatterToBlogPost(fileContentWithMetadata, slug);
 }
 
-export function getBlogByTag(tag: string): BlogPost[] {
-  return getAll().filter(
-    ({ type, tags }) => type === 'blog' && tags.includes(tag),
-  );
-}
-
-export function getBookByTag(tag: string): BlogPost[] {
-  return getAll().filter(
-    ({ type, tags }) => type === 'book' && tags.includes(tag),
-  );
+export async function getByTag(tag: string): Promise<BlogPost[]> {
+  return (await getAll()).filter(({ tags }) => tags.includes(tag));
 }

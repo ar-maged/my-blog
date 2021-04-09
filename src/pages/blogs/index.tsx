@@ -6,7 +6,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import Image from 'next/image';
 import Layout from '../../../components/Layout';
-import { BlogPost, getAllBlogs } from '../../repos/blogs';
+import { BlogPost, getAll } from '../../repos/blogs';
 import Link from 'next/link';
 
 type Props = {
@@ -24,7 +24,7 @@ const IndexPage = (props: Props) => {
     <Layout title="Blogs">
       <h1>Blogs</h1>
       {blogs.map((blog) => (
-        <div>
+        <div key={blog.slug}>
           <Link href={`/blogs/${blog.slug}`}>
             <a>
               <h2>{blog.title}</h2>
@@ -41,5 +41,5 @@ const IndexPage = (props: Props) => {
 export default IndexPage;
 
 export async function getStaticProps(): Promise<{ props: Props }> {
-  return { props: { blogs: getAllBlogs() } };
+  return { props: { blogs: await getAll() } };
 }
