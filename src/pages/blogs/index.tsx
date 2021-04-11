@@ -1,13 +1,7 @@
-import renderToString from 'next-mdx-remote/render-to-string';
-import hydrate from 'next-mdx-remote/hydrate';
-import { MdxRemote } from 'next-mdx-remote/types';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import Image from 'next/image';
-import Layout from '../../../components/Layout';
-import { BlogPost, getAll } from '../../repos/blogs';
 import Link from 'next/link';
+
+import Layout from '../../components/Layout';
+import { BlogPost, getAll } from '../../repos/blogs';
 
 type Props = {
   blogs: BlogPost[];

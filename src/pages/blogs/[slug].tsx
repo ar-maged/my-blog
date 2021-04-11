@@ -1,9 +1,9 @@
-import Layout from '../../../components/Layout';
-import { useRouter } from 'next/router';
-import { GetStaticProps, GetStaticPaths } from 'next';
-import { BlogPost, getAllBlogSlugs, getBySlug } from '../../repos/blogs';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import hydrate from 'next-mdx-remote/hydrate';
+
+import Layout from '../../components/Layout';
 import { components } from '../../components/mdxComponents';
+import { BlogPost, getAllBlogSlugs, getBySlug } from '../../repos/blogs';
 
 export type BlogProps = { blog: BlogPost };
 
