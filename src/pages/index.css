@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'iA Writer Mono S';
+  src: url('/fonts/iA Writer Mono S/iAWriterMonoS-Regular.ttf');
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'iA Writer Mono S';
+  src: url('/fonts/iA Writer Mono S/iAWriterMonoS-Bold.ttf');
+  font-style: 'bold';
+  font-weight: '500';
+  font-display: 'block';
+}
+
+* {
+  font-family: iA Writer Mono S, sans-serif;
+}

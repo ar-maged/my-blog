@@ -5,8 +5,11 @@ const violetColor = 'rgb(90, 87, 235)';
 const pinkColor = 'rgb(235, 87, 131)';
 
 export const Button = styled('a', {
+  display: 'flex',
+  textDecoration: 'none',
+  justifyContent: 'center',
+  alignItems: 'center',
   background: '$btnBackground',
-  backdropFilter: 'blur(1px)',
   borderRadius: '30px',
   padding: '6px 16px',
   fontWeight: 'bold',
