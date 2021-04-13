@@ -1,5 +1,6 @@
 import { animate } from 'popmotion';
 import React from 'react';
+import { isMobile } from 'react-device-detect';
 import ReactDOM from 'react-dom';
 
 export const useThemeCircularReveal = ({
@@ -40,12 +41,10 @@ export const useThemeCircularReveal = ({
       newElem.style.zIndex = '-1';
 
       ReactDOM.render(reactElement(), newElem, () => {
-        window.setTimeout(() => {
-          toggleTheme();
-          coordinates = { x, y };
-          containerElement.style.clipPath = `circle(${startRadius} at ${x}px ${y}px)`;
-          clonedElement = newElem;
-        }, 16);
+        toggleTheme();
+        coordinates = { x, y };
+        containerElement.style.clipPath = `circle(${startRadius} at ${x}px ${y}px)`;
+        clonedElement = newElem;
       });
     };
 
@@ -103,6 +102,11 @@ export const useThemeCircularReveal = ({
       if (!animating && clonedElement) animateClone(e.clientX, e.clientY);
     };
 
+    const handleMouseUpOnButton = (e: MouseEvent) => {
+      handleMouseEnter(e);
+      handleMouseUp(e);
+    };
+
     const handleKeydown = (e: KeyboardEvent) => {
       if (!clonedElement || animating) return;
       if (e.key === 'Escape') {
@@ -112,16 +116,24 @@ export const useThemeCircularReveal = ({
       }
     };
 
-    buttonElement.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('keydown', handleKeydown);
+    if (isMobile) {
+      buttonElement.addEventListener('pointerdown', handleMouseUpOnButton);
+    } else {
+      buttonElement.addEventListener('mouseenter', handleMouseEnter);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('keydown', handleKeydown);
+    }
 
     return () => {
-      buttonElement.removeEventListener('mouseenter', handleMouseEnter);
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('keydown', handleKeydown);
+      if (isMobile) {
+        buttonElement.removeEventListener('pointerdown', handleMouseUpOnButton);
+      } else {
+        buttonElement.removeEventListener('mouseenter', handleMouseEnter);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('keydown', handleKeydown);
+      }
     };
   }, []);
 };

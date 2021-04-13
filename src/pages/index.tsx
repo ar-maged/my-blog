@@ -30,7 +30,7 @@ const IndexPage = ({ isClone = false }: { isClone: boolean }) => {
       ),
       config: {
         startRadius: '7%',
-        endRadius: '150%',
+        endRadius: '130%',
         toggleTheme: toggle,
       },
     });
