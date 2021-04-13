@@ -176,10 +176,6 @@ const iconClassName = css({
   marginX: 2,
 });
 
-const middleIconClassName = css({
-  marginX: 4,
-});
-
 const IconAnchor = styled('a', {
   height: 24,
 });
