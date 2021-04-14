@@ -13,12 +13,15 @@ export const Button = styled('a', {
   borderRadius: '30px',
   padding: '6px 16px',
   fontWeight: 'bold',
-  fontSize: '20px',
+  fontSize: 20,
   color: '$btnColor',
   margin: '4px 0px 6px 36px',
   transition: 'background 120ms ease-in-out',
   '&:hover': {
     background: '$btnHovered',
+  },
+  '@bp1': {
+    fontSize: 18,
   },
   variants: {
     color: {

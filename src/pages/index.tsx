@@ -30,7 +30,7 @@ const IndexPage = ({ isClone = false }: { isClone: boolean }) => {
       ),
       config: {
         startRadius: '7%',
-        endRadius: '130%',
+        endRadius: '150%',
         toggleTheme: toggle,
       },
     });
@@ -126,6 +126,7 @@ const Container = styled('div', {
   textAlign: 'start',
   margin: '0 auto',
   transition: 'clip-path 100ms ease-in',
+  padding: 16,
 });
 
 const Wrapper = styled('div', {
@@ -139,6 +140,9 @@ const Title = styled('h1', {
   fontWeight: 'bold',
   fontSize: 56,
   color: '$textColor',
+  '@bp1': {
+    fontSize: 36,
+  },
 });
 
 const ButtonBracket = styled('span', {
@@ -156,6 +160,9 @@ const HeaderBracket = styled('span', {
   fontSize: 34,
   fontWeight: 'bold',
   color: 'rgba(255, 255, 255, 0.48)',
+  '@bp1': {
+    fontSize: 28,
+  },
   variants: {
     theme: {
       light: {

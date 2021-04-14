@@ -42,6 +42,11 @@ export const { theme, styled, getCssString, global, css } = createCss({
       marginRight: value,
     }),
   },
+  media: {
+    bp1: '(max-width: 640px)',
+    bp2: '(max-width: 768px)',
+    bp3: '(max-width: 1024px)',
+  },
 });
 
 export const lightTheme = theme({
