@@ -17,6 +17,7 @@ export const Button = styled('a', {
   color: '$btnColor',
   margin: '4px 0px 6px 36px',
   transition: 'background 120ms ease-in-out',
+  userSelect: 'none',
   '&:hover': {
     background: '$btnHovered',
   },

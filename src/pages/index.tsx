@@ -138,8 +138,8 @@ const Wrapper = styled('div', {
 const Title = styled('h1', {
   margin: 0,
   fontWeight: 'bold',
-  fontSize: 56,
   color: '$textColor',
+  fontSize: 56,
   '@bp1': {
     fontSize: 36,
   },
