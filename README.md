@@ -1,3 +1,5 @@
+[![Azure Static Web Apps CI/CD](https://github.com/ahmedlhanafy/my-blog/actions/workflows/azure-static-web-apps-victorious-grass-0254c8e10.yml/badge.svg)](https://github.com/ahmedlhanafy/my-blog/actions/workflows/azure-static-web-apps-victorious-grass-0254c8e10.yml)
+
 # TypeScript Next.js example
 
 This is a really simple project that shows the usage of Next.js with TypeScript.
