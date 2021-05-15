@@ -33,11 +33,16 @@ const createScreenshot =
   };
 
 export async function generateSocialCards() {
+  const { CHROME_TOKEN } = process.env;
+
+  if (!CHROME_TOKEN) {
+    throw Error('The CHROME_TOKEN environment variable is not set');
+  }
+
   fs.mkdirSync('./public/socialImages', { recursive: true });
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--single-process'],
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: `wss://chrome.lab.incipher.io?token=${CHROME_TOKEN}`,
   });
   const page = await browser.newPage();
 
