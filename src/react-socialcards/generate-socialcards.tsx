@@ -57,6 +57,7 @@ export async function generateSocialCards() {
     await screenshot(html, slug);
   }
 
+  await page.close();
   await browser.close();
 
   console.log('Social images generated correctly');
